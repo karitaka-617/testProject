@@ -69,9 +69,9 @@ class FragmentSecond : Fragment(), OnRecyclerListener {
         thread {
             try {
                 secondViewModel!!.setGitListData("sample")
-                //Log.d("mvvmTest",secondViewModel!!.getGitListData().value.toString())
+                Log.d("mvvmTest",secondViewModel!!.getGitListData().value.toString())
             }catch (e: Exception){
-                //Log.d("mvvmTest","error:$e")
+                Log.d("mvvmTest","error:$e")
             }
         }
 
@@ -91,17 +91,13 @@ class FragmentSecond : Fragment(), OnRecyclerListener {
         secondViewModel!!.getClickable().observe(this, Observer<Boolean> {})
         secondViewModel!!.getListsData().observe(this, Observer<MutableList<String>> {
             old = secondViewModel!!.getOldListData()
-//            Log.d("mvvmTest", "new:$it,old:$old")
             val diffResult = DiffUtil.calculateDiff(ListDataDiff(old,it!!))
             diffResult.dispatchUpdatesTo(mAdapter!!)
         })
     }
 
     override fun onRecyclerClicked(v: View, position: Int) {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         secondViewModel!!.deleteListData(position)
-//        Log.d("mvvmTest", "${v.id}")
-
     }
 
     private fun addTextChanged(editText: EditText){
@@ -109,7 +105,6 @@ class FragmentSecond : Fragment(), OnRecyclerListener {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(t: Editable?) {
-//                Log.d("mvvmTest",t.toString())
                 secondViewModel!!.checkText(t.toString())
                 secondViewModel!!.setEditText(t.toString())
             }

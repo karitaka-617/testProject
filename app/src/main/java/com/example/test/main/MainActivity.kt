@@ -1,11 +1,10 @@
-package com.example.test
+package com.example.test.main
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.navigation.Navigation
+import com.example.test.R
 import com.example.test.second.SecondActivity
 
 class MainActivity : AppCompatActivity(){

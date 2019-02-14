@@ -1,10 +1,9 @@
-package com.example.test
+package com.example.test.main
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.support.annotation.NonNull
-import android.util.Log
 import com.example.test.common.ProjectRepository.getTestData
 import com.example.test.common.Test
 

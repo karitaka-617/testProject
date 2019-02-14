@@ -10,14 +10,11 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.junit.Rule
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.Espresso.registerIdlingResources
-import android.support.test.espresso.IdlingRegistry
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.util.Log
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.delay
+import com.example.test.main.MainActivity
 
 
 /**
