@@ -1,15 +1,17 @@
 package com.example.test.main
 
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.test.R
 import com.example.test.second.SecondActivity
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(),MainFragment.OnFragmentInteractionListener, MainTestFragment.OnFragmentInteractionListener{
 
     private val mMainViewModel: MainViewModel? = null
+    private val mainFragment = MainFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +19,7 @@ class MainActivity : AppCompatActivity(){
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, mainFragment)
                 .commitNow()
         }
     }
@@ -49,5 +51,17 @@ class MainActivity : AppCompatActivity(){
     fun onStartSecond() {
         val intent = Intent(this,SecondActivity::class.java)
         startActivity(intent)
+    }
+
+    override fun onFragmentInteraction() {
+        supportFragmentManager
+            .beginTransaction()
+            .hide(mainFragment)
+            .add(R.id.container, MainTestFragment.newInstance("aaa","bbb"))
+            .commit()
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+
     }
 }

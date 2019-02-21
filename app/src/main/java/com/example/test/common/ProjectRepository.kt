@@ -1,20 +1,11 @@
 package com.example.test.common
 
-import android.arch.lifecycle.LiveData
 import com.google.gson.GsonBuilder
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import android.arch.lifecycle.MutableLiveData
-import android.R.attr.data
-import android.databinding.adapters.NumberPickerBindingAdapter.setValue
-import android.support.annotation.Nullable
-import android.util.Log
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import retrofit2.Call
-
 
 object ProjectRepository {
     //Retrofitインターフェース(APIリクエストを管理)
@@ -47,60 +38,17 @@ object ProjectRepository {
         return projectRepository as ProjectRepository
     }
 
-    //ユーザーを選択してのリスト取得
-    fun getProjectList(user: String): MutableLiveData<List<Data>> {
-        val data = MutableLiveData<List<Data>>()
+    suspend fun getGitListData(name:String): List<Data> = GlobalScope.async(Dispatchers.Default){
+        val data = gitClient().getProjectList(name)
+        val res = data.execute()
+        return@async res.body()!!
+    }.await()
 
-        //Retrofitで非同期リクエスト->Callbackで(自分で実装したModel)型ListのMutableLiveDataにセット
-        gitClient().getProjectList(user).enqueue(object : Callback<List<Data>> {
-            override fun onResponse(call: Call<List<Data>>, @Nullable response: Response<List<Data>>) {
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<List<Data>>, t: Throwable) {
-                //TODO: null代入良くない + エラー処理
-                data.value = null
-            }
-        })
-
-        return data
-    }
-
-    //ユーザーを選択してのリスト取得(async)
-    fun getProjectListAsync(user: String): Deferred<MutableLiveData<List<Data>>> = async {
-        val data = MutableLiveData<List<Data>>()
-
-        //Retrofitで非同期リクエスト->Callbackで(自分で実装したModel)型ListのMutableLiveDataにセット
-        gitClient().getProjectList(user).enqueue(object : Callback<List<Data>> {
-            override fun onResponse(call: Call<List<Data>>, @Nullable response: Response<List<Data>>) {
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<List<Data>>, t: Throwable) {
-                //TODO: null代入良くない + エラー処理
-                data.value = null
-            }
-        })
-
-        return@async data
-    }
-
-    fun getProjectDetails(userID: String, projectName: String): LiveData<Data> {
-        val data = MutableLiveData<Data>()
-
-        gitClient().getProjectDetails(userID, projectName).enqueue(object : Callback<Data> {
-            override fun onResponse(call: Call<Data>, response: Response<Data>) {
-                //simulateDelay()
-                data.value = response.body()
-            }
-
-            override fun onFailure(call: Call<Data>, t: Throwable) {
-                //TODO: null代入良くない + エラー処理
-                data.value = null
-            }
-        })
-        return data
-    }
+    suspend fun getGitData(name: String, projectName: String): Data = GlobalScope.async(Dispatchers.Default){
+        val data = gitClient().getProjectDetails(name,projectName)
+        val res = data.execute()
+        return@async res.body()!!
+    }.await()
 
     fun getTestData(): Test{
         //val test = Test()
@@ -111,7 +59,7 @@ object ProjectRepository {
     }
 
     fun getListData(): ArrayList<String>{
-        var array = ArrayList<String>()
+        val array = ArrayList<String>()
         array.add("banana")
         array.add("apple")
         array.add("grape")

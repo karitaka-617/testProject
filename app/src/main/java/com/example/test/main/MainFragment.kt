@@ -2,6 +2,8 @@ package com.example.test.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -13,6 +15,7 @@ import com.example.test.databinding.MainFragmentBinding
 import kotlinx.android.synthetic.main.main_fragment.*
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 
@@ -24,6 +27,7 @@ class MainFragment : Fragment() {
     private var mainViewModel: MainViewModel? = null
 
     private var mActivity: MainActivity? = null
+    private var listener: OnFragmentInteractionListener? = null
 
     companion object {
         fun newInstance() = MainFragment()
@@ -35,7 +39,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainFragmentBinding.inflate(inflater, container, false)
-        binding!!.setLifecycleOwner(this)
+        binding!!.lifecycleOwner = this
         binding!!.data = mainViewModel
 
         //return inflater.inflate(R.layout.main_fragment, container, false)
@@ -53,10 +57,29 @@ class MainFragment : Fragment() {
 
         addTextChanged(editText)
         onStartSecond(buttonNext)
+        onStartTestFragment(button)
 
         mainViewModel!!.getData().observe(this,Observer<Test> {})
         mainViewModel!!.getText().observe(this,Observer<String> {})
         mainViewModel!!.getCheckable().observe(this,Observer<Boolean> {})
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface OnFragmentInteractionListener {
+        fun onFragmentInteraction()
     }
 
     private fun addTextChanged(editText: EditText){
@@ -74,6 +97,12 @@ class MainFragment : Fragment() {
     private fun onStartSecond(button:Button){
         button.setOnClickListener {
             mActivity!!.onStartSecond()
+        }
+    }
+
+    private fun onStartTestFragment(button: Button){
+        button.setOnClickListener {
+            listener?.onFragmentInteraction()
         }
     }
 }

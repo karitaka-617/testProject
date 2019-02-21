@@ -5,8 +5,10 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.util.Log
 import com.example.test.common.Data
+import com.example.test.common.ProjectRepository
 import com.example.test.common.ProjectRepository.getListData
 import com.example.test.common.ProjectRepository.getProjectList
+import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
 
 class FragmentSecondViewModel : ViewModel() {
@@ -20,8 +22,14 @@ class FragmentSecondViewModel : ViewModel() {
         clickable.value = false
     }
 
-    fun setGitListData(user: String){
-        gitListData = getProjectList(user)
+    fun setGitListData(user: String) = runBlocking{
+        val data = ProjectRepository.getGitListData(user)
+        gitListData.value = data.toMutableList()
+//        data.forEach {
+//            Log.d("mvvmTest",it.name)
+//        }
+//        gitListData = getProjectList(user)
+//        Log.d("mvvmTest",gitListData.value.toString())
     }
 
     fun getGitListData(): LiveData<List<Data>>{

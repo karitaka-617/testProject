@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">test</string>
     <string name="back">戻る</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="textProject">プロジェクト名</string>
+    <string name="textOwner">所有者</string>
+    <string name="textUrl">URL</string>
+    <string name="toTestFragment">toTestFragment</string>
+    <string name="gitList">GitList</string>
+    <string name="text">text</string>
 </resources>

@@ -12,7 +12,6 @@ class MainViewModel : ViewModel() {
     private var data: MutableLiveData<Test> = MutableLiveData()
     private var text: MutableLiveData<String> = MutableLiveData()
     private var clickable: MutableLiveData<Boolean> = MutableLiveData()
-    private val navigator: MainNavigator? = null
 
     init {
         clickable.value = false
