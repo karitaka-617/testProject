@@ -15,6 +15,7 @@ class SecondActivity : AppCompatActivity(),GitItemFragment.OnFragmentInteraction
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
                 .replace(R.id.container, fragmentSecond)
                 .commitNow()
         }
@@ -23,6 +24,7 @@ class SecondActivity : AppCompatActivity(),GitItemFragment.OnFragmentInteraction
     override fun onBack() {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right)
             .replace(R.id.container, fragmentSecond)
             .commit()
     }
@@ -35,6 +37,7 @@ class SecondActivity : AppCompatActivity(),GitItemFragment.OnFragmentInteraction
     override fun onStartDetail(name: String, projectName: String) {
         supportFragmentManager
             .beginTransaction()
+            .setCustomAnimations(R.anim.fade_in,R.anim.fade_out)
             .replace(R.id.container, GitItemFragment.newInstance(name,projectName))
             .commit()
     }

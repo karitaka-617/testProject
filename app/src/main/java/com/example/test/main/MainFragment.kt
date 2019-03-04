@@ -18,6 +18,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import com.example.test.R
 
 
 class MainFragment : Fragment() {
@@ -27,7 +28,6 @@ class MainFragment : Fragment() {
     private var mainViewModel: MainViewModel? = null
 
     private var mActivity: MainActivity? = null
-    private var listener: OnFragmentInteractionListener? = null
 
     companion object {
         fun newInstance() = MainFragment()
@@ -52,30 +52,21 @@ class MainFragment : Fragment() {
         mActivity = activity as MainActivity
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         //初期値の設定
-        mainViewModel?.setData()
         binding!!.data = mainViewModel
 
         addTextChanged(editText)
         onStartSecond(buttonNext)
-        onStartTestFragment(button)
 
-        mainViewModel!!.getData().observe(this,Observer<Test> {})
+        buttonNext.setBackgroundResource(R.color.colorBlue)
+
         mainViewModel!!.getText().observe(this,Observer<String> {})
-        mainViewModel!!.getCheckable().observe(this,Observer<Boolean> {})
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
+        mainViewModel!!.getCheckable().observe(this,Observer<Boolean> {
+            if(it!!){
+                buttonNext.setBackgroundResource(R.drawable.button1_on)
+            }else{
+                buttonNext.setBackgroundResource(R.drawable.button1_off)
+            }
+        })
     }
 
     interface OnFragmentInteractionListener {
@@ -97,12 +88,6 @@ class MainFragment : Fragment() {
     private fun onStartSecond(button:Button){
         button.setOnClickListener {
             mActivity!!.onStartSecond()
-        }
-    }
-
-    private fun onStartTestFragment(button: Button){
-        button.setOnClickListener {
-            listener?.onFragmentInteraction()
         }
     }
 }

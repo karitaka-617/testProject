@@ -50,14 +50,6 @@ object ProjectRepository {
         return@async res.body()!!
     }.await()
 
-    fun getTestData(): Test{
-        //val test = Test()
-        val testData = Test("test",1.toString())
-
-        //test.value = testData
-        return testData
-    }
-
     fun getListData(): ArrayList<String>{
         val array = ArrayList<String>()
         array.add("banana")
