@@ -54,12 +54,13 @@ class MainFragment : Fragment() {
         //初期値の設定
         binding!!.data = mainViewModel
 
-        addTextChanged(editText)
         onStartSecond(buttonNext)
 
         buttonNext.setBackgroundResource(R.color.colorBlue)
 
-        mainViewModel!!.getText().observe(this,Observer<String> {})
+        mainViewModel!!.getText().observe(this,Observer<String> {
+            mainViewModel!!.checkText(it!!)
+        })
         mainViewModel!!.getCheckable().observe(this,Observer<Boolean> {
             if(it!!){
                 buttonNext.setBackgroundResource(R.drawable.button1_on)
@@ -71,18 +72,6 @@ class MainFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction()
-    }
-
-    private fun addTextChanged(editText: EditText){
-        editText.addTextChangedListener(object : TextWatcher{
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun afterTextChanged(t: Editable?) {
-//                Log.d("mvvmTest",t.toString())
-                mainViewModel!!.checkText(t.toString())
-                mainViewModel!!.setEditText(t.toString())
-            }
-        })
     }
 
     private fun onStartSecond(button:Button){

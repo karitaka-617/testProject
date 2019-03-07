@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
+                android:text="@={data.text}"
                 android:id="@+id/editText"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" android:autofillHints=""
