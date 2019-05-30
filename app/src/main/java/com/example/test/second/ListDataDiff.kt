@@ -1,8 +1,6 @@
 package com.example.test.second
 
 import android.support.v7.util.DiffUtil
-import android.support.v7.util.DiffUtil.ItemCallback
-import android.util.Log
 
 class ListDataDiff(
     private val old: MutableList<String>,
