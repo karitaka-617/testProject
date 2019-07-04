@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,8 @@ class FragmentSecond : Fragment(), OnRecyclerListener {
         binding!!.viewModel = secondViewModel
 
         //Adapter設定
-        recycler_view.layoutManager = LinearLayoutManager(context)
+//        recycler_view.layoutManager = LinearLayoutManager(context)
+        recycler_view.layoutManager = GridLayoutManager(context,2)
         mAdapter = RecyclerAdapter(context!!, secondViewModel!!.getGitListData().value!!, this)
         recycler_view.adapter = mAdapter
     }
